@@ -14,20 +14,18 @@ export default function App() {
   const [currentPose, setCurrentPose] = useState(null);
   const [duration, setDuration] = useState(10);
   const [timeLeft, setTimeLeft] = useState(duration);
+  const [dark, setDark] = useState(false);
 
-  // Filtered poses
   const filteredPoses = filter === "all"
     ? poses
     : poses.filter(p => p.type === filter);
 
-  // Randomize pose
   function randomizePose() {
     if (filteredPoses.length === 0) return;
     const idx = Math.floor(Math.random() * filteredPoses.length);
     setCurrentPose(filteredPoses[idx]);
   }
 
-  // Timer logic
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft(prev => {
@@ -43,22 +41,35 @@ export default function App() {
   }, [duration, filteredPoses]);
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center p-6 gap-6 bg-gray-100">
+    <div className={dark ? "w-full min-h-screen flex flex-col items-center p-6 gap-6 bg-gray-900 text-white" : "w-full min-h-screen flex flex-col items-center p-6 gap-6 bg-gray-100 text-black"}>
+      <div className="w-full flex justify-end">
+        <button
+          onClick={() => setDark(!dark)}
+          className="px-4 py-2 rounded-xl shadow bg-white text-black hover:bg-gray-200"
+        >
+          {dark ? "Light Mode" : "Dark Mode"}
+        </button>
+      </div>
+
       <h1 className="text-3xl font-bold">Pose.Random</h1>
 
       <div className="flex gap-3">
-        { ["all", "standing", "sitting", "squatting", "dynamic"].map(t => (
+        {["all", "standing", "sitting", "squatting", "dynamic"].map(t => (
           <button
             key={t}
             onClick={() => setFilter(t)}
-            className="px-4 py-2 text-sm rounded-xl bg-white shadow hover:bg-gray-200"
+            className={dark
+              ? "px-4 py-2 text-sm rounded-xl bg-gray-800 shadow hover:bg-gray-700"
+              : "px-4 py-2 text-sm rounded-xl bg-white shadow hover:bg-gray-200"}
           >
             {t}
           </button>
-        )) }
+        ))}
       </div>
 
-      <div className="w-full max-w-md aspect-square bg-white shadow rounded-xl flex items-center justify-center overflow-hidden">
+      <div className={dark
+        ? "w-full max-w-md aspect-square bg-gray-800 shadow rounded-xl flex items-center justify-center overflow-hidden"
+        : "w-full max-w-md aspect-square bg-white shadow rounded-xl flex items-center justify-center overflow-hidden"}>
         {currentPose
           ? <img src={currentPose.img} alt="pose" className="w-full h-full object-contain" />
           : <p className="text-gray-500">Click Randomize to start</p>}
@@ -80,7 +91,7 @@ export default function App() {
         <input
           type="number"
           min="3"
-          className="p-2 rounded-xl shadow"
+          className={dark ? "p-2 rounded-xl shadow bg-gray-800 text-white" : "p-2 rounded-xl shadow"}
           value={duration}
           onChange={e => setDuration(Number(e.target.value))}
         />
