@@ -72,7 +72,7 @@ export default function App() {
   }, [duration, filteredPoses]);
 
   return (
-    <div className={dark ? "min-h-screen w-full flex flex-col items-center px-4 py-6 gap-6 bg-gray-900 text-white" : "w-full min-h-screen flex flex-col items-center p-6 gap-6 bg-gray-100 text-black"}>
+    <div className={dark ? "w-full min-h-screen flex flex-col items-center p-6 gap-6 bg-gray-900 text-white" : "w-full min-h-screen flex flex-col items-center p-6 gap-6 bg-gray-100 text-black"}>
       <div className="w-full flex justify-end">
         <button
           onClick={() => setDark(!dark)}
@@ -106,8 +106,8 @@ export default function App() {
 
 
       <div className={dark
-        ? "w-full max-w-md aspect-square bg-gray-800 shadow rounded-xl flex items-center justify-center overflow-hidden"
-        : "w-full max-w-md aspect-square bg-white shadow rounded-xl flex items-center justify-center overflow-hidden"}>
+        ? "w-full max-w-md aspect-[3/4] bg-gray-800 shadow rounded-xl flex items-center justify-center overflow-hidden"
+        : "w-full max-w-md aspect-[3/4] bg-white shadow rounded-xl flex items-center justify-center overflow-hidden"}>
         {currentPose
           ? <img src={currentPose.img} alt="pose" className="w-full h-full object-contain" />
           : <p className="text-gray-500">Click Randomize to start</p>}
